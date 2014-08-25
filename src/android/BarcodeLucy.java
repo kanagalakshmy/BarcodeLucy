@@ -1,4 +1,4 @@
-package org.apache.cordova.dialogs;
+package com.bl.barcode;
 
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
