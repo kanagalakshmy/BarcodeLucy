@@ -23,6 +23,6 @@
 
         <!--<lib-file src="libs/android/android-support-v4.jar" /> -->
 
-        <source-file src="src/android/BarcodeLucy.java" target-dir="src/android/com/bl/barcode" />
+        <source-file src="src/android/BarcodeLucy.java" target-dir="src/com/bl/barcode" />
         </platform>
     </plugin>
