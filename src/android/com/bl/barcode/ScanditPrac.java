@@ -37,7 +37,7 @@ public class ScanditPrac extends SurfaceView implements SurfaceHolder.Callback, 
         this.mholder = getHolder();
         mholder.addCallback(this);
         mPicker.startScanning();
-        //mPicker.
+        mholder.setFixedSize(width, height);
         //mPicker.setWorkingRange(WorkingRange.LONG_RANGE);
         LinearLayout.LayoutParams rParams = new LinearLayout.LayoutParams(width, height);
         cordova.getActivity().addContentView(mPicker, rParams);

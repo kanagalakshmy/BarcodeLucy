@@ -2,8 +2,11 @@ package com.bl.barcode;
 
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.os.Build;
+import android.util.DisplayMetrics;
 import android.widget.Toast;
 import org.apache.cordova.*;
 import org.json.JSONArray;
@@ -53,10 +56,11 @@ public class BarcodeLucy extends CordovaPlugin {
                 return false;
             }
             try {
-                final int width = args.getInt(0);
-                final int height = args.getInt(1);
-                final int x = args.getInt(2);
-                final int y = args.getInt(3);
+                final int width = (int) convertDpToPixel(args.getInt(0),cordova.getActivity());
+                final int height = (int) convertDpToPixel(args.getInt(1),cordova.getActivity());
+                final int x = (int) convertDpToPixel(args.getInt(2),cordova.getActivity());
+                final int y = (int) convertDpToPixel(args.getInt(3),cordova.getActivity());
+                Toast.makeText(cordova.getActivity(), width+" "+height+" "+x+" "+y, Toast.LENGTH_LONG).show();
                 cordova.getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -89,6 +93,19 @@ public class BarcodeLucy extends CordovaPlugin {
         return true;
     }
 
+    /**
+     * This method converts dp unit to equivalent pixels, depending on device density.
+     *
+     * @param dp A value in dp (density independent pixels) unit. Which we need to convert into pixels
+     * @param context Context to get resources and device specific display metrics
+     * @return A float value to represent px equivalent to dp depending on device density
+     */
+    public float convertDpToPixel(float dp, Context context){
+        Resources resources = context.getResources();
+        DisplayMetrics metrics = resources.getDisplayMetrics();
+        float px = dp * (metrics.densityDpi / 160f);
+        return px;
+    }
 
     /**
      * Builds and shows a native Android alert with given Strings
