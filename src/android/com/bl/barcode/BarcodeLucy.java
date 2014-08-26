@@ -21,12 +21,13 @@ public class BarcodeLucy extends CordovaPlugin {
 
     private static final String TAG = "NOTIFICATION";
 
-    public BarcodeLucy(){
+    public BarcodeLucy() {
         super();
 
     }
 
     private ScanditPrac scan;
+
     /**
      * Executes the request and returns PluginResult.
      *
@@ -35,8 +36,8 @@ public class BarcodeLucy extends CordovaPlugin {
      * @param callbackContext The callback context used when calling back into JavaScript.
      * @return True when the action was valid, false otherwise.
      */
-    public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-        Toast.makeText(cordova.getActivity(),"Notification. call: "+action+" args: "+args, Toast.LENGTH_LONG).show();
+    public boolean execute(String action, final JSONArray args, CallbackContext callbackContext) throws JSONException {
+        Toast.makeText(cordova.getActivity(), "Notification. call: " + action + " args: " + args, Toast.LENGTH_LONG).show();
         LOG.e("Notification", "call: " + action);
 
     	/*
@@ -46,32 +47,41 @@ public class BarcodeLucy extends CordovaPlugin {
     	 * be returned in the event of an invalid action.
     	 */
         if (this.cordova.getActivity().isFinishing()) return true;
-        else if (action.equals("startCamera")){
-            if(scan !=null){
+        else if (action.equals("startCamera")) {
+            if (scan != null) {
                 callbackContext.error("Camera already running");
                 return false;
             }
-            cordova.getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    scan = new ScanditPrac(cordova.getActivity(), cordova);
-                    scan.start(700,400,0,0);
+            try {
+                final int width = args.getInt(0);
+                final int height = args.getInt(1);
+                final int x = args.getInt(2);
+                final int y = args.getInt(3);
+                cordova.getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        scan = new ScanditPrac(cordova.getActivity(), cordova);
+                        scan.start(width, height, x, y);
 
-                }
-            });
-        }
-        else if (action.equals("stopCamera")){
-            if(scan ==null){
+                    }
+                });
+            } catch (JSONException e) {
+                LOG.e(TAG, e.getLocalizedMessage());
+                Toast.makeText(cordova.getActivity(), "Exception: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                callbackContext.error("Camera not running");
+                return false;
+            }
+        } else if (action.equals("stopCamera")) {
+            if (scan == null) {
                 callbackContext.error("Camera not running");
                 return false;
             }
             scan.stop();
             scan = null;
-        }
-        else if (action.equals("alert")) {
+        } else if (action.equals("alert")) {
             this.alert(args.getString(0), args.getString(1), args.getString(2), callbackContext);
         } else {
-            Toast.makeText(cordova.getActivity(),"Stopping scannning", Toast.LENGTH_LONG).show();
+            Toast.makeText(cordova.getActivity(), "Stopping scannning", Toast.LENGTH_LONG).show();
         }
 
         // Only alert and confirm are async.
@@ -121,7 +131,6 @@ public class BarcodeLucy extends CordovaPlugin {
         };
         this.cordova.getActivity().runOnUiThread(runnable);
     }
-
 
 
 }
