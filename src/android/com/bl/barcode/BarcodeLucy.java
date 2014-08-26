@@ -4,14 +4,10 @@ import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Build;
-import android.util.Log;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 import org.apache.cordova.*;
 import org.json.JSONArray;
 import org.json.JSONException;
-
-import java.util.Arrays;
 
 /**
  * This class provides access to notifications on the device.
@@ -23,9 +19,14 @@ import java.util.Arrays;
  */
 public class BarcodeLucy extends CordovaPlugin {
 
-
     private static final String TAG = "NOTIFICATION";
 
+    public BarcodeLucy(){
+        super();
+
+    }
+
+    private ScanditPrac scan;
     /**
      * Executes the request and returns PluginResult.
      *
@@ -35,7 +36,7 @@ public class BarcodeLucy extends CordovaPlugin {
      * @return True when the action was valid, false otherwise.
      */
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-        Toast.makeText(cordova.getActivity(),"Notification. call: "+action, Toast.LENGTH_LONG).show();
+        Toast.makeText(cordova.getActivity(),"Notification. call: "+action+" args: "+args, Toast.LENGTH_LONG).show();
         LOG.e("Notification", "call: " + action);
 
     	/*
@@ -45,6 +46,28 @@ public class BarcodeLucy extends CordovaPlugin {
     	 * be returned in the event of an invalid action.
     	 */
         if (this.cordova.getActivity().isFinishing()) return true;
+        else if (action.equals("startCamera")){
+            if(scan !=null){
+                callbackContext.error("Camera already running");
+                return false;
+            }
+            cordova.getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    scan = new ScanditPrac(cordova.getActivity(), cordova);
+                    scan.start(700,400,0,0);
+
+                }
+            });
+        }
+        else if (action.equals("stopCamera")){
+            if(scan ==null){
+                callbackContext.error("Camera not running");
+                return false;
+            }
+            scan.stop();
+            scan = null;
+        }
         else if (action.equals("alert")) {
             this.alert(args.getString(0), args.getString(1), args.getString(2), callbackContext);
         } else {
@@ -98,5 +121,7 @@ public class BarcodeLucy extends CordovaPlugin {
         };
         this.cordova.getActivity().runOnUiThread(runnable);
     }
+
+
 
 }
