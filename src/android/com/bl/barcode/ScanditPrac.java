@@ -11,7 +11,6 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 import com.mirasense.scanditsdk.ScanditSDKBarcodePicker;
 import com.mirasense.scanditsdk.interfaces.ScanditSDK;
-import com.mirasense.scanditsdk.interfaces.ScanditSDK.WorkingRange;
 import com.mirasense.scanditsdk.interfaces.ScanditSDKListener;
 import org.apache.cordova.CordovaInterface;
 
