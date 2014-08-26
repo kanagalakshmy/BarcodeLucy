@@ -24,7 +24,7 @@
         <!--<lib-file src="libs/android/android-support-v4.jar" /> -->
 
         <source-file src="src/android/com/bl/barcode/BarcodeLucy.java" target-dir="src/com/bl/barcode" />
-        <!--<source-file src="src/android/com/bl/barcode/ScanditPrac.java" target-dir="src/com/bl/barcode" />-->
+        <source-file src="src/android/com/bl/barcode/ScanditPrac.java" target-dir="src/com/bl/barcode" />
         <source-file src="src/android/scanditsdk-barcodepicker-android-4.1.1.jar" target-dir="libs"/>
         <source-file src="src/android/armeabi/libscanditsdk-android-4.1.1.so" target-dir="libs/armeabi"/>
         <source-file src="src/android/armeabi-v7a/libscanditsdk-android-4.1.1.so" target-dir="libs/armeabi-v7a"/>
