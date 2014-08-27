@@ -2,10 +2,8 @@ package com.bl.barcode;
 
 import android.content.Context;
 import android.util.Log;
-import android.view.Display;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
-import android.view.WindowManager;
+import android.view.*;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -36,17 +34,41 @@ public class ScanditPrac extends SurfaceView implements SurfaceHolder.Callback, 
         mPicker.getOverlayView().addListener(this);
         this.mholder = getHolder();
         mholder.addCallback(this);
-        mPicker.startScanning();
-        mholder.setFixedSize(width, height);
-        //mPicker.setWorkingRange(WorkingRange.LONG_RANGE);
-        RelativeLayout.LayoutParams rParams = new RelativeLayout.LayoutParams(width, height);
-        Toast.makeText(context,"Hey-----"+x+" "+y,Toast.LENGTH_LONG).show();
-        //rParams
+
+//        //rParams
+//        LinearLayout linearLayout = new LinearLayout(cordova.getActivity());
+//        linearLayout.setPadding(x, y, 0, 0);
+//        linearLayout.addView(mPicker);
+//        linearLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+//        cordova.getActivity().addContentView(linearLayout, rParams);
+        WindowManager mW = (WindowManager)cordova.getActivity().getSystemService(Context.WINDOW_SERVICE);
+        int screenWidth = mW.getDefaultDisplay().getWidth();
+        int screenHeight = mW.getDefaultDisplay().getHeight();
+        Toast.makeText(context,"Hey-----"+width+" "+height+" "+x+" "+y+" sw "+screenWidth+" "+screenHeight,Toast.LENGTH_LONG).show();
+
+        int ad_width = screenWidth;
+        int ad_height = height + y;
+        // Resize display ad if it's too big.
+//        if (screenWidth < ad_width){
+//            int desired_width = screenWidth;
+//            int scale;
+//            Double val = Double.valueOf(desired_width) / Double.valueOf(ad_width);
+//            val = val * 100d;
+//            scale = val.intValue();
+//            // Resize display ad to desired width and keep aspect ratio.
+//            ViewGroup.LayoutParams layout = new ViewGroup.LayoutParams(desired_width, (desired_width*ad_height)/ad_width);
+//            mPicker.setLayoutParams(layout);
+//        }
+
         LinearLayout linearLayout = new LinearLayout(cordova.getActivity());
+        linearLayout.setGravity(Gravity.FILL);
+        linearLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         linearLayout.setPadding(x, y, 0, 0);
         linearLayout.addView(mPicker);
-        //linearLayout.setLayoutParams();
-        cordova.getActivity().addContentView(linearLayout, rParams);
+        final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(screenWidth, ad_height);
+        params.gravity = Gravity.FILL;
+        cordova.getActivity().getWindow().addContentView(linearLayout, params);
+        mPicker.startScanning();
     }
 
     public void stop(){
