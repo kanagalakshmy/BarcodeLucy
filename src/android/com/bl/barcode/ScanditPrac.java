@@ -80,8 +80,6 @@ public class ScanditPrac extends SurfaceView implements SurfaceHolder.Callback, 
         params.bottomMargin = 20;
         cordova.getActivity().getWindow().addContentView(linearLayout, params);
         this.linearLayout = linearLayout;
-        mPicker.setScanningHotSpot(0.5f, 0.5f);
-        mPicker.getOverlayView().setInfoBannerY(0.4f);
         mPicker.startScanning();
     }
 
@@ -201,19 +199,15 @@ public class ScanditPrac extends SurfaceView implements SurfaceHolder.Callback, 
         }
         picker.setPdf417Enabled(prefs.getBoolean("pdf417_enabled", false));
 
-        picker.setScanningHotSpot(prefs.getInt("hot_spot_x", 50) / 100.0f,
-                prefs.getInt("hot_spot_y", 50) / 100.0f);
+        picker.setScanningHotSpot(0.5f,0.35f);
         picker.restrictActiveScanningArea(prefs.getBoolean("restrict_scanning_area", false));
-        picker.setScanningHotSpotHeight(prefs.getInt("hot_spot_height", 25) / 100.0f);
+        picker.setScanningHotSpotHeight(0.5f);
         picker.getOverlayView().drawViewfinder(prefs.getBoolean("draw_viewfinder", true));
-        picker.getOverlayView().setViewfinderDimension(
-                prefs.getInt("viewfinder_width", 70) / 100.0f,
-                prefs.getInt("viewfinder_height", 30) / 100.0f,
-                prefs.getInt("viewfinder_landscape_width", 40) / 100.0f,
-                prefs.getInt("viewfinder_landscape_height", 30) / 100.0f);
+        picker.getOverlayView().setViewfinderDimension(0.7f,0.7f,0.7f,0.6f);
+        picker.getOverlayView().setInfoBannerY(0.4f);
 
         picker.getOverlayView().setBeepEnabled(prefs.getBoolean("beep_enabled", true));
-        picker.getOverlayView().setVibrateEnabled(prefs.getBoolean("vibrate_enabled", false));
+        picker.getOverlayView().setVibrateEnabled(prefs.getBoolean("vibrate_enabled", true));
 
         picker.getOverlayView().showSearchBar(prefs.getBoolean("search_bar", false));
         picker.getOverlayView().setSearchBarPlaceholderText(prefs.getString(
@@ -233,6 +227,11 @@ public class ScanditPrac extends SurfaceView implements SurfaceHolder.Callback, 
         picker.getOverlayView().setCameraSwitchVisibility(cameraSwitchVisibility);
         picker.getOverlayView().setCameraSwitchButtonPosition(
                 prefs.getInt("camera_switch_button_x", 5) / 100.0f, prefs.getInt("camera_switch_button_y", 1) / 100.0f, 67, 33);
+//        mPicker.setScanningHotSpot(0.5f, 0.5f);
+//
+////        mPicker.getOverlayView().setInfoBannerY(0.4f);
+//        mPicker.getOverlayView().setViewfinderDimension(1f,1f);
+//        mPicker.getOverlayView().setTextForBarcodeDecodingInProgress("Decoding...");
     }
 
 
