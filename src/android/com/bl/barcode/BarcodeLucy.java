@@ -41,12 +41,6 @@ public class BarcodeLucy extends CordovaPlugin {
         Toast.makeText(cordova.getActivity(), "Notification. call: " + action + " args: " + args, Toast.LENGTH_LONG).show();
         LOG.e("Notification", "call: " + action);
 
-    	/*
-         * Don't run any of these if the current activity is finishing
-    	 * in order to avoid android.view.WindowManager$BadTokenException
-    	 * crashing the app. Just return true here since false should only
-    	 * be returned in the event of an invalid action.
-    	 */
         if (this.cordova.getActivity().isFinishing()) return true;
         else if (action.equals("startCamera")) {
             if (scan != null) {

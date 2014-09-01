@@ -18,6 +18,7 @@ import org.apache.cordova.LOG;
 import org.apache.cordova.PluginResult;
 
 /**
+ *
  * Created by jatinpuri on 20/8/14.
  */
 public class ScanditPrac extends SurfaceView implements SurfaceHolder.Callback, ScanditSDKListener {
@@ -79,7 +80,7 @@ public class ScanditPrac extends SurfaceView implements SurfaceHolder.Callback, 
         params.bottomMargin = 20;
         cordova.getActivity().getWindow().addContentView(linearLayout, params);
         this.linearLayout = linearLayout;
-        mPicker.setScanningHotSpot(0.5f, y / (height * 1f));
+        mPicker.setScanningHotSpot(0.5f, 0.5f);
         mPicker.getOverlayView().setInfoBannerY(0.4f);
         mPicker.startScanning();
     }
@@ -166,12 +167,7 @@ public class ScanditPrac extends SurfaceView implements SurfaceHolder.Callback, 
 
     public static void setSettingsForPicker(Context context, ScanditSDK picker) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-
-        // if (prefs.getBoolean("ignore_preview_aspect_ratio", false)) {
         picker.ignorePreviewAspectRatio();
-
-
-//        }
         picker.setEan13AndUpc12Enabled(prefs.getBoolean("ean13_and_upc12_enabled", true));
         picker.setEan8Enabled(prefs.getBoolean("ean8_enabled", true));
         picker.setUpceEnabled(prefs.getBoolean("upce_enabled", true));
