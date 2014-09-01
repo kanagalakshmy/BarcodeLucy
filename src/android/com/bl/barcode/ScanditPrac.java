@@ -12,8 +12,10 @@ import com.mirasense.scanditsdk.ScanditSDKBarcodePicker;
 import com.mirasense.scanditsdk.interfaces.ScanditSDK;
 import com.mirasense.scanditsdk.interfaces.ScanditSDKListener;
 import com.mirasense.scanditsdk.interfaces.ScanditSDKOverlay;
+import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.LOG;
+import org.apache.cordova.PluginResult;
 
 /**
  * Created by jatinpuri on 20/8/14.
@@ -24,11 +26,13 @@ public class ScanditPrac extends SurfaceView implements SurfaceHolder.Callback, 
     private ScanditSDKBarcodePicker mPicker;
     private SurfaceHolder mholder;
     private final Context context;
+    private final CallbackContext sendBarcode;
 
-    public ScanditPrac(Context context, CordovaInterface cordova) {
+    public ScanditPrac(Context context, CordovaInterface cordova, CallbackContext sendBarcode) {
         super(context);
         this.context = context;
         this.cordova = cordova;
+        this.sendBarcode = sendBarcode;
     }
 
     public void start(int width, int height, int x, int y) {
@@ -113,9 +117,19 @@ public class ScanditPrac extends SurfaceView implements SurfaceHolder.Callback, 
     }
 
     @Override
-    public void didScanBarcode(String s, String s1) {
+    public void didScanBarcode(final String s, final String s1) {
         Toast.makeText(context, "Scanned Barcode: " + s + " " + s1, Toast.LENGTH_LONG).show();
         Log.i(TAG, "Did scan barcode : " + s + " " + s1);
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                PluginResult result = new PluginResult(PluginResult.Status.OK, ""+s+" "+s1);
+                result.setKeepCallback(true);
+                sendBarcode.sendPluginResult(result);
+
+            }
+        });
+
     }
 
     @Override
@@ -155,6 +169,8 @@ public class ScanditPrac extends SurfaceView implements SurfaceHolder.Callback, 
 
         // if (prefs.getBoolean("ignore_preview_aspect_ratio", false)) {
         picker.ignorePreviewAspectRatio();
+
+
 //        }
         picker.setEan13AndUpc12Enabled(prefs.getBoolean("ean13_and_upc12_enabled", true));
         picker.setEan8Enabled(prefs.getBoolean("ean8_enabled", true));
