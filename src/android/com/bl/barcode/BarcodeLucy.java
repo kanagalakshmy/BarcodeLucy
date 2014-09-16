@@ -22,6 +22,8 @@ public class BarcodeLucy extends CordovaPlugin {
 
     private static final String TAG = "NOTIFICATION";
 
+    ZbarPrac prac;
+
     public BarcodeLucy() {
         super();
 
@@ -53,11 +55,19 @@ public class BarcodeLucy extends CordovaPlugin {
                 final int x = (int) convertDpToPixel(args.getInt(2), cordova.getActivity());
                 final int y = (int) convertDpToPixel(args.getInt(3), cordova.getActivity());
                 Toast.makeText(cordova.getActivity(), width + " " + height + " " + x + " " + y, Toast.LENGTH_LONG).show();
+//                cordova.getActivity().runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        scan = new ScanditPrac(cordova.getActivity(), cordova, callbackContext);
+//                        scan.start(width, height, x, y);
+//                    }
+//                });
                 cordova.getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        scan = new ScanditPrac(cordova.getActivity(), cordova, callbackContext);
-                        scan.start(width, height, x, y);
+                        Toast.makeText(cordova.getActivity(), "Starting ZBAR", Toast.LENGTH_LONG).show();
+                        prac = new ZbarPrac(cordova.getActivity(), cordova);
+                        prac.setup(callbackContext);
                     }
                 });
             } catch (JSONException e) {
@@ -79,6 +89,11 @@ public class BarcodeLucy extends CordovaPlugin {
         return true;
     }
 
+    @Override
+    public void onPause(boolean multitasking) {
+        super.onPause(multitasking);
+        prac.releaseCamera();
+    }
 
     /**
      * This method converts dp unit to equivalent pixels, depending on device density.
