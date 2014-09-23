@@ -29,7 +29,6 @@ public class BarcodeLucy extends CordovaPlugin {
 
     }
 
-    private ScanditPrac scan;
 
     /**
      * Executes the request and returns PluginResult.
@@ -45,7 +44,7 @@ public class BarcodeLucy extends CordovaPlugin {
 
         if (this.cordova.getActivity().isFinishing()) return true;
         else if (action.equals("startCamera")) {
-            if (scan != null) {
+            if (prac != null) {
                 callbackContext.error("Camera already running");
                 return false;
             }
@@ -55,19 +54,11 @@ public class BarcodeLucy extends CordovaPlugin {
                 final int x = (int) convertDpToPixel(args.getInt(2), cordova.getActivity());
                 final int y = (int) convertDpToPixel(args.getInt(3), cordova.getActivity());
                 Toast.makeText(cordova.getActivity(), width + " " + height + " " + x + " " + y, Toast.LENGTH_LONG).show();
-//                cordova.getActivity().runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        scan = new ScanditPrac(cordova.getActivity(), cordova, callbackContext);
-//                        scan.start(width, height, x, y);
-//                    }
-//                });
                 cordova.getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(cordova.getActivity(), "Starting ZBAR", Toast.LENGTH_LONG).show();
                         prac = new ZbarPrac(cordova.getActivity(), cordova);
-                        prac.setup(callbackContext);
+                        prac.setup(callbackContext,y);
                     }
                 });
             } catch (JSONException e) {
@@ -77,12 +68,19 @@ public class BarcodeLucy extends CordovaPlugin {
                 return false;
             }
         } else if (action.equals("stopCamera")) {
-            if (scan == null) {
-                callbackContext.error("Camera not running");
+            if (prac == null) {
+                callbackContext.error("Zbar not yet started");
                 return false;
             }
-            scan.stop();
-            scan = null;
+            prac.stop();
+            prac = null;
+        }  else if (action.equals("unfreeze")) {
+            if (prac == null) {
+                callbackContext.error("Zbar not yet started");
+                return false;
+            }
+            prac.unfreeze();
+
         } else {
             Toast.makeText(cordova.getActivity(), "Stopping scannning", Toast.LENGTH_LONG).show();
         }
@@ -92,21 +90,24 @@ public class BarcodeLucy extends CordovaPlugin {
     @Override
     public void onPause(boolean multitasking) {
         super.onPause(multitasking);
-        prac.releaseCamera();
+        //prac.releaseCamera();
+//        prac.stop();
     }
 
-    /**
-     * This method converts dp unit to equivalent pixels, depending on device density.
-     *
-     * @param dp      A value in dp (density independent pixels) unit. Which we need to convert into pixels
-     * @param context Context to get resources and device specific display metrics
-     * @return A float value to represent px equivalent to dp depending on device density
-     */
+
+    /* This method converts dp unit to equivalent pixels, depending on device density.
+  *
+          * @param dp      A value in dp (density independent pixels) unit. Which we need to convert into pixels
+  * @param context Context to get resources and device specific display metrics
+  * @return A float value to represent px equivalent to dp depending on device density
+  */
     public float convertDpToPixel(float dp, Context context) {
         Resources resources = context.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
         float px = dp * (metrics.densityDpi / 160f);
         return px;
     }
+
+
 
 }

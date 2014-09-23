@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="200dp"
+              android:orientation="vertical" >
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+        <ScrollView
+                android:id="@+id/scrollView"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:fillViewport="true"
+                android:scrollbars="none" >
+
+            <LinearLayout
+                    android:id="@+id/linearLayoutBeautyContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                <SurfaceView
+                        android:id="@+id/surfaceViewBeautyCamera"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+            </LinearLayout>
+        </ScrollView>
+
+        <TextView
+                android:id="@+id/scanText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/scrollView"
+                android:layout_alignParentBottom="true"
+
+                android:paddingBottom="100dp"
+                android:text=" " >
+        </TextView>
+    </RelativeLayout>
+</LinearLayout>
+        <!--<?xml version="1.0" encoding="utf-8"?>-->
+
+        <!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+        <!--android:orientation="vertical"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="200dp">-->
+
+        <!--<ScrollView-->
+        <!--android:id="@+id/scrollView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="160dp"-->
+        <!--android:scrollbars="none"-->
+        <!--android:fillViewport="true"-->
+        <!-->-->
+        <!--<LinearLayout-->
+        <!--android:id="@+id/linearLayoutBeautyContent"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="fill_parent"-->
+        <!--android:orientation="vertical">-->
+        <!--<SurfaceView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:id="@+id/surfaceViewBeautyCamera"/>-->
+        <!--</LinearLayout>-->
+        <!--</ScrollView>-->
+
+
+        <!--<TextView-->
+        <!--android:id="@+id/scanText"-->
+        <!--android:text="Scanning..."-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_below="@id/scrollView">-->
+        <!--</TextView>-->
+        <!--</RelativeLayout>-->
