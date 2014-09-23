@@ -33,52 +33,22 @@ public class CameraPreview implements SurfaceHolder.Callback {
                          AutoFocusCallback autoFocusCb, Activity activity) {
 
 
-//        final Parameters parameters = mCamera.getParameters();
-//        for(Camera.Size s : parameters.getSupportedPictureSizes()){
-//            Log.w("zbar-count"," "+s.width+", "+s.height);
-//        }
-//        WindowManager mW = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
-//        int screenWidth = mW.getDefaultDisplay().getWidth();
-//        int screenHeight = mW.getDefaultDisplay().getHeight();
-//
-//        mCamera.setParameters(parameters);
-//
-//        layout(0,0,screenWidth, 100);
-        //setPadding(100,100,100,100);
-        //parameters.set
+
         previewCallback = previewCb;
         autoFocusCallback = autoFocusCb;
         this.mCamera = camera;
 
-
-        /* 
-         * Set camera to continuous focus if supported, otherwise use
-         * software auto-focus. Only works for API level >=9.
-         */
-        /*
-        Camera.Parameters parameters = camera.getParameters();
-        for (String f : parameters.getSupportedFocusModes()) {
-            if (f == Parameters.FOCUS_MODE_CONTINUOUS_PICTURE) {
-                mCamera.setFocusMode(Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
-                autoFocusCallback = null;
-                break;
-            }
-        }
-        */
-
-        // Install a SurfaceHolder.Callback so we get notified when the
-        // underlying surface is created and destroyed.
         this.activity = activity;
     }
 
 
     public void surfaceCreated(SurfaceHolder holder) {
 
-//        mHolder.addCallback(this);
+
         holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
         Log.e("DBG", "Surface Created");
-        // The Surface has been created, now tell the camera where to draw the preview.
+
         try {
             //mCamera =  getCameraInstance();
             mCamera.setDisplayOrientation(90);
@@ -104,7 +74,7 @@ public class CameraPreview implements SurfaceHolder.Callback {
                 try {
                     mCamera.stopPreview();
                 } catch (Exception e) {
-                    // ignore: tried to stop a non-existent preview
+                    Log.e("DBG", "Error stopping camera preview: " + e.getMessage());
                 }
 
                 try {
@@ -115,7 +85,7 @@ public class CameraPreview implements SurfaceHolder.Callback {
                     mCamera.startPreview();
                     mCamera.autoFocus(autoFocusCallback);
                 } catch (Exception e) {
-                    Log.d("DBG", "Error starting camera preview: " + e.getMessage());
+                    Log.e("DBG", "Error starting camera preview: " + e.getMessage());
                 }
             }
         });

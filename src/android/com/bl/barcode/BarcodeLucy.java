@@ -20,7 +20,7 @@ import org.json.JSONException;
  */
 public class BarcodeLucy extends CordovaPlugin {
 
-    private static final String TAG = "NOTIFICATION";
+    private static final String TAG = "BarcodeLucy";
 
     ZbarPrac prac;
 
@@ -39,8 +39,7 @@ public class BarcodeLucy extends CordovaPlugin {
      * @return True when the action was valid, false otherwise.
      */
     public boolean execute(String action, final JSONArray args, final CallbackContext callbackContext) throws JSONException {
-        Toast.makeText(cordova.getActivity(), "Notification. call: " + action + " args: " + args, Toast.LENGTH_LONG).show();
-        LOG.e("Notification", "call: " + action);
+        LOG.e(TAG, "call: " + action+" args: "+args);
 
         if (this.cordova.getActivity().isFinishing()) return true;
         else if (action.equals("startCamera")) {
@@ -53,7 +52,6 @@ public class BarcodeLucy extends CordovaPlugin {
                 final int height = (int) convertDpToPixel(args.getInt(1), cordova.getActivity());
                 final int x = (int) convertDpToPixel(args.getInt(2), cordova.getActivity());
                 final int y = (int) convertDpToPixel(args.getInt(3), cordova.getActivity());
-                Toast.makeText(cordova.getActivity(), width + " " + height + " " + x + " " + y, Toast.LENGTH_LONG).show();
                 cordova.getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -63,7 +61,6 @@ public class BarcodeLucy extends CordovaPlugin {
                 });
             } catch (JSONException e) {
                 LOG.e(TAG, e.getLocalizedMessage());
-                Toast.makeText(cordova.getActivity(), "Exception: " + e.getMessage(), Toast.LENGTH_LONG).show();
                 callbackContext.error("Camera not running");
                 return false;
             }
@@ -82,7 +79,7 @@ public class BarcodeLucy extends CordovaPlugin {
             prac.unfreeze();
 
         } else {
-            Toast.makeText(cordova.getActivity(), "Stopping scannning", Toast.LENGTH_LONG).show();
+            LOG.e(TAG, "Stopping scannning");
         }
         return true;
     }
@@ -90,8 +87,6 @@ public class BarcodeLucy extends CordovaPlugin {
     @Override
     public void onPause(boolean multitasking) {
         super.onPause(multitasking);
-        //prac.releaseCamera();
-//        prac.stop();
     }
 
 

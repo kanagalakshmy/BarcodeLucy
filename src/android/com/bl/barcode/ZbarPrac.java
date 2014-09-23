@@ -93,7 +93,6 @@ public class ZbarPrac {
 
         final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         inflate.setPadding(0, y, 0, 0);
-        Toast.makeText(cordova.getActivity(), "Y given is: " + y + ". Height: " + params.height, Toast.LENGTH_LONG);
         LOG.e(TAG, "Y given is: " + y + ". Height: " + params.height);
         this.beautyContent = beautyContent;
         previewing = true;
