@@ -190,7 +190,7 @@ public class ZbarPrac {
                             public void run() {
                                 mCamera.setPreviewCallback(null);
                                 mCamera.stopPreview();
-                                freeze = true
+                                freeze = true;
                             }
                         });
                         break;
