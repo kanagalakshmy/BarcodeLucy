@@ -18,3 +18,5 @@ Stops the camera and removes the preview
 
 Stops the camera but does not remove the preview. The view is freezed on the screen and it doesn't scan for barcode
 
+Edited by prasanna
+
