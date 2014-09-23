@@ -24,7 +24,6 @@
         <!--<lib-file src="libs/android/android-support-v4.jar" /> -->
 
         <source-file src="src/android/com/bl/barcode/BarcodeLucy.java" target-dir="src/com/bl/barcode" />
-        <source-file src="src/android/com/bl/barcode/ScanditPrac.java" target-dir="src/com/bl/barcode" />
         <source-file src="src/android/com/bl/barcode/ZbarPrac.java" target-dir="src/com/bl/barcode" />
         <source-file src="src/android/com/bl/barcode/main2.xml" target-dir="res/layout"/>
         <source-file src="src/android/zbar.jar" target-dir="libs"/>
